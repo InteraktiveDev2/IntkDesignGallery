@@ -1,0 +1,32 @@
+{
+  "name": "intkdesigngallery",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Interaktive Design Gallery — searchable cross-faceted gallery of 2,600+ design systems",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "data": "node scripts/generate-data.mjs",
+    "predev": "npm run data",
+    "dev": "vite",
+    "prebuild": "npm run data",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}

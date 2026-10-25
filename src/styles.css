@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Interaktive Design System — semantic tokens
+ * Source of truth: Design/Interaktive-Design.md
+ * Surfaces: canvas -> card -> panel (stacked surfaces, no shadows)
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-canvas: #0f0a19;
+  --color-card: #1a1025;
+  --color-panel: #2d2440;
+  --color-band: #1e1630;
+
+  /* Lines */
+  --color-line: #3a2d52;
+
+  /* Text */
+  --color-ink: #e8dff0;
+  --color-ink-secondary: #b8a0d2;
+  --color-ink-muted: #8a7a9e;
+
+  /* Brand */
+  --color-primary: #7b5ea7;
+  --color-primary-ink: #f0eaf5;
+  --color-accent: #e8a0b0;
+  --color-teal: #1d928a;
+  --color-lavender: #e2dfe5;
+  --color-danger: #e05577;
+
+  /* Type */
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii — never mix 8 and 16 in the same component family */
+  --radius-button: 12px;
+  --radius-card: 16px;
+  --radius-field: 10px;
+
+  /* Layout */
+  --container-width-page: 1280px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-primary) 55%, transparent);
+    color: var(--color-ink);
+  }
+
+  /* Slim dark scrollbars for the filter rails */
+  .scroll-slim {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  .scroll-slim::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scroll-slim::-webkit-scrollbar-thumb {
+    background-color: var(--color-line);
+    border-radius: 9999px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Global focus ring. Declared UNLAYERED so it wins over Tailwind's
+ * utilities layer (a layered :focus-visible loses for outline-color
+ * and silently falls back to currentColor).
+ * ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid #7b5ea7; /* --color-primary */
+  outline-color: #7b5ea7;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Design-system signatures (allowed only where the design doc says so)
+ * ------------------------------------------------------------------ */
+
+/* 40x40 technical grid — HERO ONLY */
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, #7b5ea712 1px, transparent 1px),
+    linear-gradient(to bottom, #7b5ea712 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Defined purple glow — the only shadow-like treatment in the system */
+@utility glow {
+  box-shadow: 0 0 40px #7b5ea74d, 0 0 80px #7b5ea71a;
+}
+
+/* Closed tracking for Space Grotesk display */
+@utility tracking-display {
+  letter-spacing: -0.02em;
+}
+
+/* Defined text glow — H1 and metric numbers only */
+@utility glow-text {
+  text-shadow: 0 0 40px #7b5ea780;
+}
+
+@utility overline {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Slow hero float — the whole band drifts a few pixels, never bounces */
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+.animate-hero-float {
+  animation: hero-float 7s ease-in-out infinite;
+}
+
+/* Very slow halo breathing behind the hero */
+@keyframes halo-drift {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50%, 20px, 0) scale(1.06);
+  }
+}
+.animate-halo-drift {
+  animation: halo-drift 14s ease-in-out infinite;
+}
+
+/* Mobile filter slide-over (duration collapses under reduced motion) */
+@keyframes drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.animate-drawer-in {
+  animation: drawer-in 250ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .card-media {
+    transform: none !important;
+  }
+}

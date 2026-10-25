@@ -1,0 +1,14 @@
+node_modules/
+dist/
+public/data/
+*.local
+.DS_Store
+
+# Binary export of the dataset — regenerable, not needed by the build
+Data/*.db
+
+# Agent tooling metadata
+.atl/
+
+# Vercel CLI local state
+.vercel/
